@@ -1,0 +1,78 @@
+---
+title: "Introduction to Gradient Functions"
+author: "J Gregg"
+date: "22/08/2020"
+output: ioslides_presentation
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tinytex)
+```
+
+## Gradient
+
+You should be familiar with the concept of gradient.
+
+You should be familiar with the formula for finding gradient.
+
+<center> $\frac {change\  in\  y}{change\ in\ x}$ </center>
+<br>
+This is fine for defining the gradient of a line as a number, but what about other functions?
+
+## Gradients of curves
+
+$y = x^2$
+
+```{r}
+a <- function(x) (x^2)
+plot.function(a,-3, 3, xlim = c(-3,3), ylim = c(-6,9),xlab = " ", ylab = " ", xaxt = 'n', yaxt = 'n')
+axis(1, at = -3:3, pos = c(0,0), lwd = 2, col = "blue")
+axis(2, at = -6:9, pos = c(0,0), lwd = 2, col = "blue")
+
+```
+
+## Gradients of Curves
+
+At different points this graph is steeper than others
+
+```{r}
+plot.function(a,-3, 3, xlim = c(-3,3), ylim = c(-6,9),xlab = " ", ylab = " ", xaxt = 'n', yaxt = 'n')
+abline(h = 0, lwd = 2, col = "red")
+abline(a = -1,b=2, lwd = 2, col = "red")
+axis(1, at = -3:3, pos = c(0,0), lwd = 0.5, col = "blue")
+axis(2, at = -6:9, pos = c(0,0), lwd = 0.5, col = "blue")
+
+```
+
+## Gradients of Curves
+
+```{r gradient}
+inputPanel(
+  numericInput("xval",
+                  label = "x value:",
+                  min = -3,
+                  max = 3,
+                  value = 1, 
+                  step = 0.5)
+  
+)
+
+renderPlot({
+
+        f <- function(x) (x^2)
+        g <- function(x) (2*x)
+  
+        xval <- as.numeric(input$xval)
+  
+        plot.function(f,-3, 3, xlim = c(-3,3), ylim = c(-6,9),xlab = " ", ylab = " ", 
+                      xaxt = 'n', yaxt = 'n')
+        axis(1, at = -3:3, pos = c(0,0), lwd = 0.5, col = "blue")
+        axis(2, at = -6:9, pos = c(0,0), lwd = 0.5, col = "blue")
+        abline(a = (f(xval)-g(xval)*xval), b = g(xval), lwd = 2, lty = 2, col = "red")
+        points(xval,f(xval), pch = 4, lwd = 3, col = "red")
+
+})
+```
+
